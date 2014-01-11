@@ -1,4 +1,5 @@
-pixels
+Pixels
 ======
+Random compilation of 2d graphics madness.
 
-This is a program that tests a few 2d graphical ideas.
+I use this repository to test the 2d side of "flashy-pixels".
