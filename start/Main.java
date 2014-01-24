@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package start;
 
+import graphics.Mandelbrot;
 import window.Window;
 
 /**
@@ -14,10 +9,10 @@ import window.Window;
  */
 public class Main {
     public static void main(String args[]) {
-        Window window = new Window(640, 420, "Testing");
+        Window window = new Window(640, 420, "Mandelbrot");
         window.frameBasicInit();
         window.frame().setVisible(true);
-        
-        
+        Mandelbrot mand = new Mandelbrot(window, -2, 1, -1, 1, 100);
+        mand.draw();
     }
 }

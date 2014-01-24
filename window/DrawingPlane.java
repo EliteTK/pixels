@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package window;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
@@ -16,6 +11,9 @@ public class DrawingPlane {
     BufferedImage image;
     Window window;
     
+    int width;
+    int height;
+    
     /**
      *
      * @param width
@@ -23,7 +21,23 @@ public class DrawingPlane {
      * @param window
      */
     public DrawingPlane(int width, int height, Window window) {
+        this.width = width;
+        this.height = height;
         this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         this.window = window;
+    }
+    
+    public void setPixel(int x, int y, int colour) {
+        this.image.setRGB(x, y, colour);
+    }
+    
+    public void redraw() {
+        Graphics g = this.window.getGraphics();
+        g.drawImage(this.image, 0, 0, this.width, this.height, this.window);
+        g.dispose();
+    }
+    
+    public BufferedImage getBufferedImage() {
+        return this.image;
     }
 }
