@@ -131,9 +131,9 @@ public class Mandelbrot implements Runnable {
                     x = xtemp;
                     iter++;
                 }
-                int shade = (int) ((double) iter * invIter * (double) 255);
+                int shade = (int) ((double) iter * invIter * (double) 127);
 
-                int color = (iter < maxIter ? (new Color(shade, shade / 2, shade / 2)).getRGB() : Color.BLACK.getRGB());
+                int color = (iter < maxIter ? (new Color(shade * 2, shade, shade)).getRGB() : Color.BLACK.getRGB());
                 drawByValue(pos, color);
             } else {
                 cont = false;
