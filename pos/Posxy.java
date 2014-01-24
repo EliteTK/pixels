@@ -13,11 +13,11 @@ public class Posxy {
         this.x = x;
         this.y = y;
     }
-    
+
     public double getX() {
         return this.x;
     }
-    
+
     public double getY() {
         return this.y;
     }

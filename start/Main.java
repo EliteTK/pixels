@@ -8,11 +8,12 @@ import window.Window;
  * @author main
  */
 public class Main {
+
     public static void main(String args[]) {
         Window window = new Window(640, 420, "Mandelbrot");
         window.frameBasicInit();
         window.frame().setVisible(true);
-        Mandelbrot mand = new Mandelbrot(window, -2, 1, -1, 1, 100);
+        Mandelbrot mand = new Mandelbrot(window, 6000, 4000, -2, 1, -1, 1, 500);
         mand.draw();
     }
 }
