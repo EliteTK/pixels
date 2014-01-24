@@ -21,8 +21,8 @@ public class Mandelbrot implements Runnable {
     DrawingPlane dp;
     int nextUncalculated = 0, maxCalculated;
 
-    int width = 6720;
-    int height = 4480;
+    int width = 900;
+    int height = 600;
 
     public Mandelbrot(Window window, int startx, int endx, int starty, int endy, int maxIter) {
         this.startx = startx;
@@ -88,9 +88,7 @@ public class Mandelbrot implements Runnable {
     private void drawByValue(int value, int color) {
         int x = (int) Math.floor(value / this.height);
         int y = value - x * this.height;
-        //System.out.printf("Drawing coordinates: %d, %d, c: %d%n", x, y, color);
         this.dp.setPixel(x, y, color);
-        //this.dp.redraw();
     }
 
     @Override
@@ -98,7 +96,6 @@ public class Mandelbrot implements Runnable {
         boolean cont = true;
         while (cont) {
             int pos = getNextUncalculated();
-//            System.out.printf("Calculating %d%n", pos);
             if (pos != -1) {
                 Posxy startPoint = resolveFromValue(pos);
                 double x0 = startPoint.getX();
