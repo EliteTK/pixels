@@ -14,22 +14,18 @@ import window.*;
  */
 public final class Mandelbrot implements Runnable {
 
-    final int width, height, totalPixels;
-    int maxIter, nextUncalculatedPixel = 0;
-    double pixelStep, startx, starty, endx, endy, invIter;
+    private final int width, height, totalPixels;
+    private int maxIter, nextUncalculatedPixel = 0;
+    private double pixelStep, startx, starty, endx, endy, invIter;
 
-    Window window;
-    DrawingPlane dp;
-    MandelbrotColourtable mc;
+    private final Window window;
+    private final DrawingPlane dp;
+    private final MandelbrotColourtable mc;
 
-    Thread t0 = new Thread(this);
-    Thread t1 = new Thread(this);
-    Thread t2 = new Thread(this);
-    Thread t3 = new Thread(this);
-//    Thread t4 = new Thread(this);
-//    Thread t5 = new Thread(this);
-//    Thread t6 = new Thread(this);
-//    Thread t7 = new Thread(this);
+    private final Thread t0;
+    private final Thread t1;
+    private final Thread t2;
+    private final Thread t3;
 
     boolean needsRedrawing, saveImage;
 
@@ -63,6 +59,11 @@ public final class Mandelbrot implements Runnable {
         for (int i = 1; i <= maxIter; i++) {
             System.out.printf("%d: %d%n", i, mc.getColour(i));
         }
+        
+        this.t0 = new Thread(this);
+        this.t1 = new Thread(this);
+        this.t2 = new Thread(this);
+        this.t3 = new Thread(this);
     }
 
     public void updateViewport(double posx, double posy, double pixelStep, int maxIter) {
@@ -89,20 +90,12 @@ public final class Mandelbrot implements Runnable {
             t1.start();
             t2.start();
             t3.start();
-//        t4.start();
-//        t5.start();
-//        t6.start();
-//        t7.start();
 
             try {
                 t0.join();
                 t1.join();
                 t2.join();
                 t3.join();
-//            t4.join();
-//            t5.join();
-//            t6.join();
-//            t7.join();
 
             } catch (InterruptedException e) {
                 System.err.println("Oops failed to draw image. Unexpected interrupt.");
@@ -171,5 +164,9 @@ public final class Mandelbrot implements Runnable {
                 iterateMore = false;
             }
         }
+    }
+    
+    public DrawingPlane getDrawingPlane () {
+        return this.dp;
     }
 }
