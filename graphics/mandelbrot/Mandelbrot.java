@@ -20,12 +20,8 @@ public final class Mandelbrot implements Runnable {
 
     private final Window window;
     private final DrawingPlane dp;
-    private final MandelbrotColourtable mc;
-
-    private final Thread t0;
-    private final Thread t1;
-    private final Thread t2;
-    private final Thread t3;
+    private MandelbrotColourtable mc;
+    private final MandelbrotColourtableFunction mcf;
 
     boolean needsRedrawing, saveImage;
 
@@ -43,27 +39,17 @@ public final class Mandelbrot implements Runnable {
      * @param saveImage
      */
     public Mandelbrot(Window window, MandelbrotColourtableFunction mcf, int width, int height, double posx, double posy, double pixelStep, int maxIter, boolean saveImage) {
-
         this.width = width;
         this.height = height;
+
+        this.mcf = mcf;
         
         this.updateViewport(posx, posy, pixelStep, maxIter);
-        
+
         this.window = window;
         this.dp = new DrawingPlane(width, height, window);
 
         this.totalPixels = this.width * this.height;
-
-        this.mc = new MandelbrotColourtable(mcf, maxIter, Color.BLACK.getRGB());
-
-        for (int i = 1; i <= maxIter; i++) {
-            System.out.printf("%d: %d%n", i, mc.getColour(i));
-        }
-        
-        this.t0 = new Thread(this);
-        this.t1 = new Thread(this);
-        this.t2 = new Thread(this);
-        this.t3 = new Thread(this);
     }
 
     public void updateViewport(double posx, double posy, double pixelStep, int maxIter) {
@@ -79,12 +65,21 @@ public final class Mandelbrot implements Runnable {
 
         this.invIter = (double) 1 / (double) maxIter;
 
+        this.mc = new MandelbrotColourtable(mcf, maxIter, Color.BLACK.getRGB());
+
         this.needsRedrawing = true;
     }
 
     public void draw() {
         if (this.needsRedrawing) {
             long startTime = System.currentTimeMillis();
+
+            this.nextUncalculatedPixel = 0;
+
+            Thread t0 = new Thread(this);
+            Thread t1 = new Thread(this);
+            Thread t2 = new Thread(this);
+            Thread t3 = new Thread(this);
 
             t0.start();
             t1.start();
@@ -100,8 +95,11 @@ public final class Mandelbrot implements Runnable {
             } catch (InterruptedException e) {
                 System.err.println("Oops failed to draw image. Unexpected interrupt.");
             }
-            System.out.printf("It took %d miliseconds to draw the image.%n", System.currentTimeMillis() - startTime);
+
+            window.frame().setTitle("Mandelbrot " + String.valueOf(System.currentTimeMillis() - startTime) + " miliseconds " + String.valueOf(maxIter) + " iterations.");
+//            System.out.printf("It took %d miliseconds to draw the image.%n", System.currentTimeMillis() - startTime);
             dp.redraw();
+            this.needsRedrawing = false;
         }
         if (this.saveImage) {
             try {
@@ -165,8 +163,8 @@ public final class Mandelbrot implements Runnable {
             }
         }
     }
-    
-    public DrawingPlane getDrawingPlane () {
+
+    public DrawingPlane getDrawingPlane() {
         return this.dp;
     }
 }
