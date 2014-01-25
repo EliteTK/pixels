@@ -1,6 +1,6 @@
 package start;
 
-import graphics.Mandelbrot;
+import graphics.mandelbrot.Mandelbrot;
 import window.Window;
 
 /**
@@ -10,10 +10,11 @@ import window.Window;
 public class Main {
 
     public static void main(String args[]) {
-        Window window = new Window(640, 420, "Mandelbrot");
+        Window window = new Window(600, 600, "Mandelbrot");
         window.frameBasicInit();
         window.frame().setVisible(true);
-        Mandelbrot mand = new Mandelbrot(window, 600, 600, -2, 1, -1.5, 1.5, 384);
+        
+        Mandelbrot mand = new Mandelbrot(window, new ColourFunc(), 600, 600, -0.5, 0.0, 0.007, 50, false);
         mand.draw();
     }
 }
