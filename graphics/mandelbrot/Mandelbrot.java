@@ -149,27 +149,26 @@ public final class Mandelbrot implements Runnable {
 
     @Override
     public void run() {
-        boolean cont = true;
-        while (cont) {
+        boolean iterateMore = true;
+        while (iterateMore) {
             int pos = getNextUncalculated();
             if (pos != -1) {
                 Posxy startPoint = resolveFromValue(pos);
-                double x0 = startPoint.getX();
-                double y0 = startPoint.getY();
-                double x = 0.0;
-                double y = 0.0;
+                double xConst = startPoint.getX();
+                double yConst = startPoint.getY();
+                double xIterator = 0.0;
+                double yIterator = 0.0;
 
                 int iter = 0;
-                while ((x * x + y * y < 4) && iter < maxIter) {
-                    double xtemp = x * x - y * y + x0;
-                    y = 2 * x * y + y0;
-                    x = xtemp;
+                while ((xIterator * xIterator + yIterator * yIterator < 4) && iter < maxIter) {
+                    double xtemp = xIterator * xIterator - yIterator * yIterator + xConst;
+                    yIterator = 2 * xIterator * yIterator + yConst;
+                    xIterator = xtemp;
                     iter++;
                 }
-                int colour = mc.getColour(iter);
-                drawByValue(pos, colour);
+                drawByValue(pos, mc.getColour(iter));
             } else {
-                cont = false;
+                iterateMore = false;
             }
         }
     }
