@@ -20,7 +20,7 @@ public class ColourFunc implements MandelbrotColourtableFunction {
     @Override
     public int getColour(int iter, int maxIter) {
         float temp = (float) iter / (float) maxIter;
-        float rainbowLoop = ((float) iter % (float)100) / 99;
+        float rainbowLoop = ((float) iter % (float)360) / 359;
         return Color.HSBtoRGB(rainbowLoop, (float) 1.0, (float) 1.0);
     }
 }

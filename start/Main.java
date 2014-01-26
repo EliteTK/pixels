@@ -11,51 +11,57 @@ import window.Window;
  */
 public class Main implements KeyListener {
 
-    static double posx = 0.0, posy = 0.0, pixelStep = 0.007;
-    static int maxIter = 50;
+    static int maxIter = 50, sampleRate = 1;
+    static double posx = 0.0, posy = 0.0, pixelStep = 0.007 / sampleRate;
+
     static boolean event = true;
+    static Mandelbrot mand;
+
+    static final int width = 640, height = 480;
 
     public static void main(String args[]) {
-        Window window = new Window(600, 600, "Mandelbrot");
+        Window window = new Window(width, height, "Mandelbrot");
         window.frameBasicInit();
         window.frame().setVisible(true);
 
         window.addKeyListener(new Main());
 
-        Mandelbrot mand = new Mandelbrot(window, new ColourFunc(), 600, 600, posx, posy, pixelStep, maxIter, false);
+        mand = new Mandelbrot(window, new ColourFunc(), width, height, posx, posy, pixelStep, maxIter, sampleRate, false);
 
         while (true) {
             mand.draw();
             if (event) {
-                mand.updateViewport(posx, posy, pixelStep, maxIter);
+                mand.updateViewport(posx, posy, pixelStep, maxIter, sampleRate, false);
                 event = false;
             }
         }
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {}
+    public void keyPressed(KeyEvent e) {
+    }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
         switch (e.getKeyChar()) {
             case 'd':
-                posx += pixelStep * 10;
+                posx += pixelStep * 10 * sampleRate;
                 event = true;
                 break;
             case 'w':
-                posy += pixelStep * 10;
+                posy += pixelStep * 10 * sampleRate;
                 event = true;
                 break;
             case 'a':
-                posx -= pixelStep * 10;
+                posx -= pixelStep * 10 * sampleRate;
                 event = true;
                 break;
             case 's':
-                posy -= pixelStep * 10;
+                posy -= pixelStep * 10 * sampleRate;
                 event = true;
                 break;
             case '+':
@@ -72,6 +78,28 @@ public class Main implements KeyListener {
                 break;
             case '.':
                 maxIter += 10;
+                event = true;
+                break;
+            case 'r':
+                mand.getDrawingPlane().redraw();
+                break;
+            case 'R':
+                maxIter = 50;
+                pixelStep = 0.007;
+                posx = 0;
+                posy = 0;
+                event = true;
+                break;
+            case '[':
+                if (sampleRate > 1) {
+                    sampleRate -= 1;
+                    pixelStep *= 2;
+                    event = true;
+                }
+                break;
+            case ']':
+                sampleRate += 1;
+                pixelStep /= 2;
                 event = true;
                 break;
         }
