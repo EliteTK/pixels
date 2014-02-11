@@ -12,7 +12,7 @@ import window.Window;
 public class Main implements KeyListener {
 
     static int maxIter = 50, sampleRate = 1;
-    static double posx = 0.0, posy = 0.0, pixelStep = 0.007 / sampleRate;
+    static double posx = 0.0, posy = 0.0, pixelStep = 0.007;
 
     static boolean event = true;
     static Mandelbrot mand;
@@ -73,8 +73,10 @@ public class Main implements KeyListener {
                 event = true;
                 break;
             case ',':
-                maxIter -= 10;
-                event = true;
+                if (maxIter >= 10) {
+                    maxIter -= 10;
+                    event = true;
+                }
                 break;
             case '.':
                 maxIter += 10;
@@ -92,14 +94,14 @@ public class Main implements KeyListener {
                 break;
             case '[':
                 if (sampleRate > 1) {
+                    pixelStep *= sampleRate / (sampleRate - 1);
                     sampleRate -= 1;
-                    pixelStep *= 2;
                     event = true;
                 }
                 break;
             case ']':
                 sampleRate += 1;
-                pixelStep /= 2;
+                pixelStep /= sampleRate / (sampleRate - 1);
                 event = true;
                 break;
         }
