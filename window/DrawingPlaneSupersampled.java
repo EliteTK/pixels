@@ -5,7 +5,6 @@
  */
 package window;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -29,7 +28,6 @@ public class DrawingPlaneSupersampled extends DrawingPlane {
         super(width * sampleRate, height * sampleRate, window);
         this.sampleRate = sampleRate;
         imageDownsampled = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        System.out.printf("Debug: The image should have size %d by %d%n", width, height);
     }
 
     public void downsample() {
