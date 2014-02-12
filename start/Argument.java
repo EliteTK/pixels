@@ -13,19 +13,17 @@ import java.util.Random;
  *
  * @author main
  */
-public class ColourFunc implements MandelbrotColourtableFunction {
+public class Argument implements MandelbrotColourtableFunction {
 
     Random rand = new Random();
 
     @Override
     public int getColour(int iter, int maxIter, double real, double imaginary) {
-        float temp = (float) iter / (float) maxIter;
-        float rainbowLoop = ((float) iter % (float)360) / 359;
-        return Color.HSBtoRGB(rainbowLoop, (float) 1.0, (float) 1.0);
+        return Color.HSBtoRGB((float)(Math.tan(real/imaginary) / (2f * Math.PI)), 1.0f, 1.0f);
     }
     
     @Override
     public boolean isAdvanced() {
-        return false;
+        return true;
     }
 }

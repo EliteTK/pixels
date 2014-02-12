@@ -178,7 +178,7 @@ public final class Mandelbrot implements Runnable {
                     xIterator = xtemp;
                     iter++;
                 }
-                drawByValue(pos, mc.getColour(iter));
+                drawByValue(pos, mc.getColour(iter, xIterator, yIterator));
             } else {
                 iterateMore = false;
             }
