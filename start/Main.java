@@ -94,14 +94,12 @@ public class Main implements KeyListener {
                 break;
             case '[':
                 if (sampleRate > 1) {
-                    pixelStep *= sampleRate / (sampleRate - 1);
                     sampleRate -= 1;
                     event = true;
                 }
                 break;
             case ']':
                 sampleRate += 1;
-                pixelStep /= sampleRate / (sampleRate - 1);
                 event = true;
                 break;
         }

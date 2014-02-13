@@ -67,16 +67,17 @@ public final class Mandelbrot implements Runnable {
                 this.dp = new DrawingPlaneSupersampled(this.baseWidth, this.baseHeight, this.window, sampleRate);
             }
         }
-        this.sampleRate = sampleRate;
 
         this.basePixelStep = pixelStep;
-        this.pixelStep = this.basePixelStep;
+        this.pixelStep = this.basePixelStep / sampleRate;
+        
+        this.sampleRate = sampleRate;
+        
+        this.startx = posx - this.width / 2 * this.pixelStep;
+        this.starty = posy - this.height / 2 * this.pixelStep;
 
-        this.startx = posx - this.width / 2 * pixelStep;
-        this.starty = posy - this.height / 2 * pixelStep;
-
-        this.endx = posx + this.width / 2 * pixelStep;
-        this.endy = posy + this.height / 2 * pixelStep;
+        this.endx = posx + this.width / 2 * this.pixelStep;
+        this.endy = posy + this.height / 2 * this.pixelStep;
 
         this.maxIter = maxIter;
 
